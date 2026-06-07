@@ -147,14 +147,13 @@ body {
 }
 
 #write a {
-    color: #8dc8fb;
+    color: #b080ff;
     text-decoration: none;
-    border-bottom: 1px solid rgba(141, 200, 251, 0.3);
-    transition: border-color 0.2s;
 }
 
 #write a:hover {
-    border-bottom-color: #8dc8fb;
+    text-decoration: underline;
+    text-underline-offset: 3px;
 }
 
 /* ============================================
@@ -258,12 +257,26 @@ code, tt {
 
 #write ul,
 #write ol {
-    padding-left: 1.6rem;
-    margin: 0.5rem 0 1rem;
+    padding-left: 1.875rem;  /* github.css 기준 30px */
+    margin: 0.8em 0;
+}
+
+#write li > ul,
+#write li > ol {
+    margin: 0;
+}
+
+#write ul:first-child,
+#write ol:first-child {
+    margin-top: 0;
+}
+
+#write ul:last-child,
+#write ol:last-child {
+    margin-bottom: 0;
 }
 
 #write li {
-    margin: 0.3rem 0;
     color: #d4d0da;
     line-height: 1.8;
 }
@@ -275,6 +288,21 @@ code, tt {
 #write ol li::marker {
     color: #7a6a99;
     font-weight: 600;
+}
+
+/* ============================================
+   TASK LIST (체크박스)
+   ============================================ */
+
+#write .md-task-list-item > input {
+    margin-left: -1.3em;
+    accent-color: #7138cc;
+    cursor: pointer;
+}
+
+#write .md-task-list-item.task-list-done > p {
+    color: #4a4353;
+    text-decoration: line-through;
 }
 
 /* ============================================
