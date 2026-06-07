@@ -1,7 +1,5 @@
 # Kiro Typora Theme
 
-> **This theme is inspired by the [Kiro IDE](https://kiro.dev) color palette and is not affiliated with or endorsed by AWS.**
-
 A dark Typora theme inspired by the [Kiro IDE](https://kiro.dev) color palette.
 Deep purple-gray backgrounds with vivid purple accents, optimized for long reading sessions.
 
