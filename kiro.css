@@ -294,10 +294,19 @@ code, tt {
    TASK LIST (체크박스)
    ============================================ */
 
+li p.first {
+    display: inline-block;
+}
+
 #write .md-task-list-item > input {
     margin-left: -1.3em;
     accent-color: #7138cc;
     cursor: pointer;
+    vertical-align: middle;
+}
+
+#write .md-task-list-item {
+    line-height: 1.6;
 }
 
 #write .md-task-list-item.task-list-done > p {
