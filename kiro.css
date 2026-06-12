@@ -1,34 +1,35 @@
+/* 本地字体资源位于 themes/kiro，路径需要和实际文件名一致。 */
 @font-face {
     font-family: 'Pretendard';
-    src: url('kiro-dark/Pretendard-Light.ttf') format('truetype');
+    src: url('kiro/Pretendard-Light.otf') format('opentype');
     font-weight: 300;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Pretendard';
-    src: url('kiro-dark/Pretendard-Regular.ttf') format('truetype');
+    src: url('kiro/Pretendard-Regular.otf') format('opentype');
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Pretendard';
-    src: url('kiro-dark/Pretendard-SemiBold.ttf') format('truetype');
+    src: url('kiro/Pretendard-SemiBold.otf') format('opentype');
     font-weight: 600;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'JetBrains Mono';
-    src: url('kiro-dark/JetBrainsMono-Regular.ttf') format('truetype');
+    src: url('kiro/JetBrainsMonoNL-Regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'JetBrains Mono';
-    src: url('kiro-dark/JetBrainsMono-Bold.ttf') format('truetype');
+    src: url('kiro/JetBrainsMonoNL-Bold.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
 }
@@ -50,15 +51,47 @@
     --active-file-bg-color:   #28242e;
     --active-file-text-color: #e2d3fe;
     --active-file-border-color: #b080ff;
-    --side-bar-bg-color:      #19161d;
     --item-hover-bg-color:    rgba(176, 128, 255, 0.08);
     --item-hover-text-color:  #e2d3fe;
     --monospace:              'JetBrains Mono', 'Pretendard', monospace;
 }
 
+/* 全局选区：避免暗色主题下出现浅底浅字。 */
+::selection {
+    background: rgba(176, 128, 255, 0.38);
+    color: #ffffff;
+}
+
+#write ::selection {
+    background: rgba(176, 128, 255, 0.38);
+    color: #ffffff;
+}
+
 html {
     font-size: 16px;
     background-color: var(--bg-color);
+}
+
+/* 源码模式：强制使用主题背景，避免切换时回落到默认浅色样式。 */
+#typora-source,
+#typora-source .CodeMirror,
+#typora-source .CodeMirror-lines {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* 源码模式右下角按钮：避免“退出源代码模式”出现背景/文字同色。 */
+.typora-sourceview-on #toggle-sourceview-btn,
+#toggle-sourceview-btn:hover,
+#footer-word-count:hover,
+.ty-show-word-count #footer-word-count {
+    background: #28242e !important;
+    color: #e2d3fe !important;
+    border-color: #3a3344 !important;
+}
+
+#toggle-sourceview-btn {
+    color: #938f9b;
 }
 
 body {
@@ -294,7 +327,7 @@ code, tt {
    TASK LIST (체크박스)
    ============================================ */
 
-li p.first {
+#write li p.first {
     display: inline-block;
 }
 
@@ -310,7 +343,7 @@ li p.first {
 }
 
 #write .md-task-list-item.task-list-done > p {
-    color: #4a4353;
+    color: #7f758d;
     text-decoration: line-through;
 }
 
@@ -432,13 +465,26 @@ li p.first {
 
 @media print {
     body {
-        background-color: #211d25;
-        color: #d4d0da;
+        /* 打印/导出使用浅色底，避免暗色背景导致耗墨或可读性问题。 */
+        background-color: #ffffff;
+        color: #1f1b24;
     }
 
     .typora-export * {
         -webkit-print-color-adjust: exact;
     }
+}
+
+/* Typora 特殊块深色兜底：YAML、HTML、raw block、数学块等。 */
+pre.md-meta-block,
+.md-rawblock-container,
+.md-htmlblock-container,
+.md-mathjax-preview,
+.md-mathjax-midline {
+    background: #19161d !important;
+    color: #d4d0da !important;
+    border: 1px solid #2e2935;
+    border-radius: 6px;
 }
 
 /* ============================================
@@ -466,8 +512,74 @@ li p.first {
     border-left: 2px solid #b080ff;
 }
 
+/* CodeMirror 选区：统一代码块和源码模式的选中背景。 */
 .cm-s-inner div.CodeMirror-selected {
-    background: rgba(176, 128, 255, 0.15);
+    background: rgba(176, 128, 255, 0.38) !important;
+}
+
+.CodeMirror-selected,
+.CodeMirror-focused .CodeMirror-selected,
+#typora-source .CodeMirror-selected {
+    background: rgba(176, 128, 255, 0.38) !important;
+}
+
+/* 选中文字本身不绘制背景，让底层紫色选区露出来。 */
+.CodeMirror-selectedtext {
+    color: #ffffff !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+.md-fences ::selection,
+.md-fences .CodeMirror-line::selection,
+.md-fences .CodeMirror-line span::selection,
+.md-fences pre.CodeMirror-line::selection,
+.md-fences pre.CodeMirror-line span::selection,
+.cm-s-inner ::selection,
+.cm-s-inner span::selection {
+    background: rgba(176, 128, 255, 0.45) !important;
+    background-color: rgba(176, 128, 255, 0.45) !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+#write .md-fences .CodeMirror-selected,
+#write .md-fences .CodeMirror-focused .CodeMirror-selected,
+#write .md-fences .CodeMirror div.CodeMirror-selected,
+#write .md-fences .CodeMirror-focused div.CodeMirror-selected,
+.md-fences .CodeMirror-selected,
+.md-fences .CodeMirror-focused .CodeMirror-selected,
+.md-fences .CodeMirror div.CodeMirror-selected,
+.md-fences .CodeMirror-focused div.CodeMirror-selected,
+.cm-s-inner.CodeMirror div.CodeMirror-selected,
+.cm-s-typora-default div.CodeMirror-selected {
+    background: rgba(176, 128, 255, 0.45) !important;
+}
+
+#write .md-fences .CodeMirror-selectedtext,
+.md-fences .CodeMirror-selectedtext,
+.cm-s-inner .CodeMirror-selectedtext {
+    color: #ffffff !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+/* 语法 token 不再叠加白底，修复代码块中“有字区域白底白字”。 */
+#write .md-fences .CodeMirror-selectedtext *,
+#write .md-fences .CodeMirror-line .CodeMirror-selectedtext,
+#write .md-fences .CodeMirror-line .CodeMirror-selectedtext *,
+.md-fences .CodeMirror-selectedtext *,
+.md-fences .CodeMirror-line .CodeMirror-selectedtext,
+.md-fences .CodeMirror-line .CodeMirror-selectedtext *,
+.cm-s-inner .CodeMirror-selectedtext *,
+.cm-s-inner .CodeMirror-line .CodeMirror-selectedtext,
+.cm-s-inner .CodeMirror-line .CodeMirror-selectedtext * {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
 }
 
 .cm-s-inner .cm-keyword {
